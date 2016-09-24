@@ -9,9 +9,9 @@
 import UIKit
 
 /*
-This is the demo banner. The banner is needed so that the top row popups have somewhere to go. Might as well fill it
-with something (or leave it blank if you like.)
-*/
+ This is the demo banner. The banner is needed so that the top row popups have somewhere to go. Might as well fill it
+ with something (or leave it blank if you like.)
+ */
 
 class CatboardBanner: ExtraView {
     
@@ -24,13 +24,13 @@ class CatboardBanner: ExtraView {
         self.addSubview(self.catSwitch)
         self.addSubview(self.catLabel)
         
-        self.catSwitch.on = NSUserDefaults.standardUserDefaults().boolForKey(kCatTypeEnabled)
-        self.catSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75)
-        self.catSwitch.addTarget(self, action: Selector("respondToSwitch"), forControlEvents: UIControlEvents.ValueChanged)
+        self.catSwitch.isOn = UserDefaults.standard.bool(forKey: kCatTypeEnabled)
+        self.catSwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        self.catSwitch.addTarget(self, action: #selector(respondToSwitch), for: UIControlEvents.valueChanged)
         
         self.updateAppearance()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -41,19 +41,19 @@ class CatboardBanner: ExtraView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         self.catSwitch.center = self.center
         self.catLabel.center = self.center
-        self.catLabel.frame.origin = CGPointMake(self.catSwitch.frame.origin.x + self.catSwitch.frame.width + 8, self.catLabel.frame.origin.y)
+        self.catLabel.frame.origin = CGPoint(x: self.catSwitch.frame.origin.x + self.catSwitch.frame.width + 8, y: self.catLabel.frame.origin.y)
     }
     
     func respondToSwitch() {
-        NSUserDefaults.standardUserDefaults().setBool(self.catSwitch.on, forKey: kCatTypeEnabled)
+        UserDefaults.standard.set(self.catSwitch.isOn, forKey: kCatTypeEnabled)
         self.updateAppearance()
     }
     
     func updateAppearance() {
-        if self.catSwitch.on {
+        if self.catSwitch.isOn {
             self.catLabel.text = "😺"
             self.catLabel.alpha = 1
         }
